@@ -1,9 +1,8 @@
 <div align="center">
-<div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+<p align="center">
   <img src="https://github.com/user-attachments/assets/5fc7f121-259c-492c-8bca-f15fe7eb830c" alt="GOAT" width="100px" height="auto" style="object-fit: contain;">
-  <span style="font-size: 24px; font-weight: bold;">×</span>
-  <img src="https://images.ctfassets.net/wr0no19kwov9/4SBboHNAVGDL6iSUBtzwf5/99bffcbe8a37dcb9a8cdb34b2b2054a4/brand-kit-wordmark-image-01.png?fm=webp&w=3840&q=70" alt="Celo" width="100px" height="auto" style="object-fit: contain;">
-</div>
+  <img src="https://images.ctfassets.net/wr0no19kwov9/7KrZk4N0f0DQ4JEho7bVaO/71bd1a964b2188dee36dced134518ffa/brand-kit-wordmark-image-10.png?fm=webp&w=3840&q=70" alt="Celo" width="100px" height="auto" style="object-fit: contain;">
+</p>
 </div>
 
 # Celo GOAT Langchain Agent
