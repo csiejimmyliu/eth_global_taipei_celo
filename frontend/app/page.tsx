@@ -1,15 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+import { SendIcon } from 'lucide-react';
 import { ChatMessageList } from './components/ui/chat-message-list';
 import { Button } from './components/ui/button';
-import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
 interface Message {
   id: string;
   content: string;
   role: 'user' | 'assistant';
-  timestamp: Date;
+  timestamp: number;
 }
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
       id: '1',
       role: 'assistant',
       content: 'Hello! I am your Celo Agent. I can help you deploy smart contracts, interact with tokens, and manage your blockchain assets. How can I assist you today?',
-      timestamp: new Date(),
+      timestamp: Date.now(),
     }
   ]);
   const [input, setInput] = useState('');
@@ -32,7 +32,7 @@ export default function Home() {
       id: Date.now().toString(),
       role: 'user',
       content: input.trim(),
-      timestamp: new Date(),
+      timestamp: Date.now(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -59,7 +59,7 @@ export default function Home() {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: data.response,
-        timestamp: new Date(),
+        timestamp: Date.now(),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -69,7 +69,7 @@ export default function Home() {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: 'Sorry, I encountered an error. Please try again.',
-        timestamp: new Date(),
+        timestamp: Date.now(),
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -90,7 +90,6 @@ export default function Home() {
           <ChatMessageList
             messages={messages}
             isLoading={isLoading}
-            loadingMessage="Thinking..."
           />
         </div>
       </main>
@@ -112,7 +111,7 @@ export default function Home() {
               className="inline-flex items-center gap-1"
             >
               Send
-              <PaperAirplaneIcon className="h-4 w-4" />
+              <SendIcon className="h-4 w-4" />
             </Button>
           </form>
         </div>

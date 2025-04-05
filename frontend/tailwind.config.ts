@@ -54,6 +54,66 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
+  			},
+  			typography: {
+  				DEFAULT: {
+  					css: {
+  						maxWidth: 'none',
+  						color: 'inherit',
+  						a: {
+  							color: 'inherit',
+  							textDecoration: 'none',
+  						},
+  						'[class~="lead"]': {
+  							color: 'inherit',
+  						},
+  						strong: {
+  							color: 'inherit',
+  						},
+  						'ul > li::before': {
+  							backgroundColor: 'currentColor',
+  						},
+  						hr: {
+  							borderColor: 'currentColor',
+  						},
+  						blockquote: {
+  							color: 'inherit',
+  							borderLeftColor: 'currentColor',
+  						},
+  						h1: {
+  							color: 'inherit',
+  						},
+  						h2: {
+  							color: 'inherit',
+  						},
+  						h3: {
+  							color: 'inherit',
+  						},
+  						h4: {
+  							color: 'inherit',
+  						},
+  						'figure figcaption': {
+  							color: 'inherit',
+  						},
+  						code: {
+  							color: 'inherit',
+  						},
+  						'a code': {
+  							color: 'inherit',
+  						},
+  						pre: {
+  							color: 'inherit',
+  							backgroundColor: 'transparent',
+  						},
+  						thead: {
+  							color: 'inherit',
+  							borderBottomColor: 'currentColor',
+  						},
+  						'tbody tr': {
+  							borderBottomColor: 'currentColor',
+  						},
+  					},
+  				},
   			}
   		}
   	}
