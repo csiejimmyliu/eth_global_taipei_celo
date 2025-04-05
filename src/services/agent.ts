@@ -4,6 +4,7 @@ import { viem } from "@goat-sdk/wallet-viem";
 import type { ChatPromptTemplate } from "@langchain/core/prompts";
 import { AgentExecutor, createStructuredChatAgent } from "langchain/agents";
 import { pull } from "langchain/hub";
+import { BaseCallbackHandler } from "@langchain/core/callbacks/base";
 import { TOKENS } from "../config/tokens";
 import { walletClient } from "../config/wallet";
 import { selectLLMModel } from "./llm";
@@ -26,13 +27,13 @@ export async function setupAgent() {
   // Create agent
   const agent = await createStructuredChatAgent({
     llm,
-    tools,
+    tools: tools as any,
     prompt,
   });
 
   // Create agent executor
   return new AgentExecutor({
     agent,
-    tools,
+    tools: tools as any,
   });
 }
