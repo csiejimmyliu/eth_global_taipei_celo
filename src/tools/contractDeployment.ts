@@ -19,12 +19,9 @@ export class ContractDeploymentTool extends Tool {
         const result = await deployERC20Token(name, symbol, Number(initialSupply));
         
         return JSON.stringify({
-          success: true,
+          ...result,
           tokenType: 'ERC20',
-          name,
-          symbol,
-          initialSupply,
-          ...result
+          success: true
         });
       } else {
         const { bytecode, abi, constructorArgs = [] } = params;
@@ -36,8 +33,8 @@ export class ContractDeploymentTool extends Tool {
         const result = await deployContract(bytecode as `0x${string}`, abi, constructorArgs);
         
         return JSON.stringify({
-          success: true,
-          ...result
+          ...result,
+          success: true
         });
       }
     } catch (error) {

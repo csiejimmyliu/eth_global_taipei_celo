@@ -1,6 +1,6 @@
 import { createWalletClient, http, type WalletClient } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { celo, celoAlfajores } from "viem/chains";
+import { celo } from "viem/chains";
 import { validateEnvVariables } from "./validation";
 
 // Validate environment variables before proceeding
@@ -11,9 +11,9 @@ export const account = privateKeyToAccount(
   process.env.WALLET_PRIVATE_KEY as `0x${string}`
 );
 
-// Create wallet client
+// Create wallet client specifically for Celo mainnet
 export const walletClient: WalletClient = createWalletClient({
   account: account,
   transport: http(process.env.RPC_PROVIDER_URL),
-  chain: process.env.NETWORK === "mainnet" ? celo : celoAlfajores,
+  chain: celo, // Explicitly set to Celo mainnet
 });

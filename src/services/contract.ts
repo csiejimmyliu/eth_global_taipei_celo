@@ -1,5 +1,5 @@
 import { createPublicClient, http } from 'viem';
-import { celo, celoAlfajores } from 'viem/chains';
+import { celo } from 'viem/chains';
 import { walletClient } from '../config/wallet';
 import { compileSolidity } from './compiler';
 import { verifyERC20Contract } from './verification';
@@ -20,11 +20,11 @@ export async function deployContract(
       bytecode: contractBytecode,
       args: constructorArgs,
       account: walletClient.account,
-      chain: process.env.NETWORK === "mainnet" ? celo : celoAlfajores,
+      chain: celo,
     });
 
     const publicClient = createPublicClient({
-      chain: process.env.NETWORK === "mainnet" ? celo : celoAlfajores,
+      chain: celo,
       transport: http(process.env.RPC_PROVIDER_URL),
     });
 
@@ -37,6 +37,8 @@ export async function deployContract(
     return {
       transactionHash: hash,
       contractAddress: receipt.contractAddress,
+      network: 'Celo Mainnet',
+      chainId: celo.id
     };
   } catch (error) {
     console.error('Contract deployment failed:', error);
@@ -51,40 +53,26 @@ export async function deployERC20Token(
 ) {
   try {
     const contractPath = path.join(process.cwd(), 'src', 'contracts', 'ERC20Token.sol');
-    const { abi, bytecode } = await compileSolidity(contractPath);
     
+    console.log('Compiling contract...');
+    const { abi, bytecode } = await compileSolidity(contractPath);
+    console.log('Contract compiled successfully');
+    
+    console.log('Deploying contract to Celo Mainnet...');
     const deploymentResult = await deployContract(
       bytecode,
       abi,
       [name, symbol, initialSupply]
     );
+    console.log('Contract deployed successfully');
 
-    // Verify the contract if CELOSCAN_API_KEY is available
-    if (process.env.CELOSCAN_API_KEY) {
-      try {
-        const verificationResult = await verifyERC20Contract(
-          deploymentResult.contractAddress!,
-          name,
-          symbol,
-          initialSupply
-        );
-        return {
-          ...deploymentResult,
-          verification: verificationResult
-        };
-      } catch (verificationError) {
-        console.warn('Contract verification failed:', verificationError);
-        return {
-          ...deploymentResult,
-          verification: {
-            success: false,
-            error: verificationError instanceof Error ? verificationError.message : 'Unknown verification error'
-          }
-        };
-      }
-    }
-
-    return deploymentResult;
+    return {
+      ...deploymentResult,
+      name,
+      symbol,
+      initialSupply,
+      contractType: 'CeloERC20Token'
+    };
   } catch (error) {
     console.error('ERC20 deployment failed:', error);
     throw error;
