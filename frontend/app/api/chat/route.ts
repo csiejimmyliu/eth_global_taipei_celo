@@ -9,16 +9,27 @@ interface ChatRequest {
   messages: Message[];
 }
 
+const AGENT_URL = 'http://localhost:3001/api/chat';
+
 export async function POST(request: Request) {
   try {
     const body: ChatRequest = await request.json();
-    const userMessage = body.messages[body.messages.length - 1];
 
-    // TODO: Implement actual contract interaction logic here
-    // For now, return a mock response
-    const response = `I received your message: "${userMessage.content}". This is a placeholder response. In the future, this will interact with Celo smart contracts.`;
+    // Forward the request to the agent server
+    const agentResponse = await fetch(AGENT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
 
-    return NextResponse.json({ response });
+    if (!agentResponse.ok) {
+      throw new Error('Agent server error');
+    }
+
+    const data = await agentResponse.json();
+    return NextResponse.json({ response: data.response });
   } catch (error) {
     console.error('Error processing chat message:', error);
     return NextResponse.json(
