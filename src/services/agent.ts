@@ -8,13 +8,20 @@ import { BaseCallbackHandler } from "@langchain/core/callbacks/base";
 import { TOKENS } from "../config/tokens";
 import { walletClient } from "../config/wallet";
 import { selectLLMModel } from "./llm";
+import { ContractDeploymentTool } from "../tools/contractDeployment";
 
 export async function setupAgent() {
   // Get onchain tools for the wallet
-  const tools = await getOnChainTools({
+  const onChainTools = await getOnChainTools({
     wallet: viem(walletClient),
     plugins: [erc20({ tokens: TOKENS })],
   });
+
+  // Create contract deployment tool
+  const contractDeploymentTool = new ContractDeploymentTool();
+
+  // Combine all tools
+  const tools = [...onChainTools, contractDeploymentTool];
 
   // Initialize LLM
   const llm = selectLLMModel();
