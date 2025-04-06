@@ -29,24 +29,24 @@ export function ChatInput({ onSend, isLoading }: ChatInputProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full items-end gap-2 p-4">
+    <form onSubmit={handleSubmit} className="flex w-full items-end gap-4 p-8 bg-white border-t">
       <Textarea
         ref={textareaRef}
         placeholder="Type a message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
-        rows={1}
-        className="min-h-[44px] w-full resize-none"
+        rows={4}
+        className="min-h-[100px] max-h-[300px] w-full resize-y rounded-2xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 text-base"
         disabled={isLoading}
       />
       <Button
         type="submit"
         size="icon"
         disabled={!message.trim() || isLoading}
-        className="h-11 w-11"
+        className="h-14 w-14 rounded-2xl bg-blue-500 hover:bg-blue-600 transition-colors flex-shrink-0"
       >
-        <SendIcon className="h-5 w-5" />
+        <SendIcon className="h-6 w-6" />
         <span className="sr-only">Send message</span>
       </Button>
     </form>

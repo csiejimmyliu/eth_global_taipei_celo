@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { SendIcon } from 'lucide-react';
 import { ChatMessageList } from './components/ui/chat-message-list';
-import { Button } from './components/ui/button';
+import { ChatInput } from './components/ui/chat-input';
 
 interface Message {
   id: string;
@@ -21,22 +20,19 @@ export default function Home() {
       timestamp: Date.now(),
     }
   ]);
-  const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const handleSendMessage = async (message: string) => {
+    if (!message.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
       role: 'user',
-      content: input.trim(),
+      content: message.trim(),
       timestamp: Date.now(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    setInput('');
     setIsLoading(true);
 
     try {
@@ -78,44 +74,31 @@ export default function Home() {
   };
 
   return (
-    <div className="flex h-screen flex-col bg-white">
-      <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur">
-        <div className="mx-auto max-w-3xl px-3 py-2">
-          <h1 className="text-base font-medium">Celo Agent Chat</h1>
+    <div className="flex h-screen flex-col bg-gray-50">
+      <header className="sticky top-0 z-10 border-b bg-white shadow-sm">
+        <div className="mx-auto max-w-4xl px-4 py-4">
+          <h1 className="text-lg font-semibold text-gray-900">Celo Agent Chat</h1>
         </div>
       </header>
 
       <main className="flex-1 overflow-hidden">
-        <div className="mx-auto h-full max-w-3xl p-4 pt-4 md:pt-6">
-          <ChatMessageList
-            messages={messages}
-            isLoading={isLoading}
-          />
+        <div className="mx-auto h-full max-w-4xl">
+          <div className="h-full overflow-hidden rounded-xl bg-white shadow-sm">
+            <div className="flex h-full flex-col">
+              <div className="flex-1 overflow-y-auto p-4">
+                <ChatMessageList
+                  messages={messages}
+                  isLoading={isLoading}
+                />
+              </div>
+              <ChatInput
+                onSend={handleSendMessage}
+                isLoading={isLoading}
+              />
+            </div>
+          </div>
         </div>
       </main>
-
-      <div className="border-t bg-white/80 backdrop-blur">
-        <div className="mx-auto max-w-3xl p-4">
-          <form onSubmit={handleSubmit} className="flex gap-3">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Message Celo Agent..."
-              className="flex-1 rounded-md border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              disabled={isLoading}
-            />
-            <Button 
-              type="submit" 
-              disabled={!input.trim() || isLoading}
-              className="inline-flex items-center gap-1"
-            >
-              Send
-              <SendIcon className="h-4 w-4" />
-            </Button>
-          </form>
-        </div>
-      </div>
     </div>
   );
 }
